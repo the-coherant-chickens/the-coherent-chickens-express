@@ -1,5 +1,7 @@
 # The Coherent Chickens - An Express Backend ReadMe
+
 ### Authors:
-James Hankins
-@lpinkham
-Gabriel Andreottola (@gandreottola)
+- Lori Pinkham (@lpinkham)
+- Gabriel Andreottola (@gandreottola)
+- James Hankins (@JHankins09)
+- Seth Sprague (@swsprague)
