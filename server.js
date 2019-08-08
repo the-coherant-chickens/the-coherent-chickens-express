@@ -6,7 +6,7 @@ const cors = require('cors')
 
 // require route files
 const exampleRoutes = require('./app/routes/example_routes')
-const imagesRoutes = require('./app/routes/images_routes')
+const imageRoutes = require('./app/routes/image_routes')
 const userRoutes = require('./app/routes/user_routes')
 
 // require error handling middleware
@@ -60,7 +60,7 @@ app.use(bodyParser.urlencoded({ extended: true }))
 
 // register route files
 app.use(exampleRoutes)
-app.use(imagesRoutes)
+app.use(imageRoutes)
 app.use(userRoutes)
 
 // register error handling middleware
