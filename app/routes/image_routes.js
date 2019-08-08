@@ -2,9 +2,12 @@
 const express = require('express')
 // Passport docs: http://www.passportjs.org/docs/
 const passport = require('passport')
+const multer = require('multer')
+const upload = multer()
+const uploadFile = require('../../lib/s3-upload-api')
 
 // pull in Mongoose model for images
-const Image = require('../models/image')
+const ImageUpload = require('../models/image')
 
 // this is a collection of methods that help us detect situations when we need
 // to throw a custom error
@@ -27,10 +30,32 @@ const requireToken = passport.authenticate('bearer', { session: false })
 // instantiate a router (mini app that only handles routes)
 const router = express.Router()
 
+// CREATE
+// POST /images
+router.post('/images', requireToken, upload.single('file'), (req, res, next) => {
+  // set owner of new image to be current user
+  req.body.image.owner = req.user.id
+
+  uploadFile(req.file)
+    .then(awsRes => {
+      return ImageUpload.create({
+        url: awsRes.Location,
+        name: awsRes.Key,
+        type: req.file.mimetype
+      })
+    })
+    // respond to succesful `create` with status 201 and JSON of new "image"
+    .then(image => res.status(201).json({ image: image.toObject() }))
+    // if an error occurs, pass it off to our error handler
+    // the error handler needs the error message and the `res` object so that it
+    // can send an error message back to the client
+    .catch(next)
+})
+
 // INDEX
 // GET /images
 router.get('/images', requireToken, (req, res, next) => {
-  Image.find()
+  ImageUpload.find()
     .then(images => {
       // `images` will be an array of Mongoose documents
       // we want to convert each one to a POJO, so we use `.map` to
@@ -47,28 +72,11 @@ router.get('/images', requireToken, (req, res, next) => {
 // GET /images/5a7db6c74d55bc51bdf39793
 router.get('/images/:id', requireToken, (req, res, next) => {
   // req.params.id will be set based on the `:id` in the route
-  Image.findById(req.params.id)
+  ImageUpload.findById(req.params.id)
     .then(handle404)
     // if `findById` is succesful, respond with 200 and "image" JSON
     .then(image => res.status(200).json({ image: image.toObject() }))
     // if an error occurs, pass it to the handler
-    .catch(next)
-})
-
-// CREATE
-// POST /images
-router.post('/images', requireToken, (req, res, next) => {
-  // set owner of new image to be current user
-  req.body.image.owner = req.user.id
-
-  Image.create(req.body.image)
-    // respond to succesful `create` with status 201 and JSON of new "image"
-    .then(image => {
-      res.status(201).json({ image: image.toObject() })
-    })
-    // if an error occurs, pass it off to our error handler
-    // the error handler needs the error message and the `res` object so that it
-    // can send an error message back to the client
     .catch(next)
 })
 
@@ -79,7 +87,7 @@ router.patch('/images/:id', requireToken, removeBlanks, (req, res, next) => {
   // owner, prevent that by deleting that key/value pair
   delete req.body.image.owner
 
-  Image.findById(req.params.id)
+  ImageUpload.findById(req.params.id)
     .then(handle404)
     .then(image => {
       // pass the `req` object and the Mongoose record to `requireOwnership`
@@ -98,7 +106,7 @@ router.patch('/images/:id', requireToken, removeBlanks, (req, res, next) => {
 // DESTROY
 // DELETE /images/5a7db6c74d55bc51bdf39793
 router.delete('/images/:id', requireToken, (req, res, next) => {
-  Image.findById(req.params.id)
+  ImageUpload.findById(req.params.id)
     .then(handle404)
     .then(image => {
       // throw an error if current user doesn't own `image`
