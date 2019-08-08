@@ -4,7 +4,7 @@ const express = require('express')
 const passport = require('passport')
 const multer = require('multer')
 const upload = multer()
-const uploadFile = require('../../lib/s3-upload-api')
+const uploadFile = require('../../lib/s3_upload_api')
 
 // pull in Mongoose model for images
 const ImageUpload = require('../models/image')
