@@ -6,8 +6,8 @@ const imageSchema = new mongoose.Schema({
     required: true
   },
   tag: {
-    array: [],
-    reuired: true
+    type: [String],
+    required: true
   },
   url: {
     type: String,
