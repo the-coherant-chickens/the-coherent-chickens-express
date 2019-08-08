@@ -5,9 +5,13 @@ const imageSchema = new mongoose.Schema({
     type: String,
     required: true
   },
-  tag: [],
-  aws_ref: {
-    type: String
+  tag: {
+    array: [],
+    reuired: true
+  },
+  url: {
+    type: String,
+    required: true
   },
   owner: {
     type: mongoose.Schema.Types.ObjectId,
