@@ -37,13 +37,19 @@ router.post('/images', upload.single('file'), (req, res, next) => {
   uploadFile(req.file)
     .then(awsRes => {
       const imageName = req.file.originalname.split('.')[0]
-      // req.body.image.user = new mongoose.Types.ObjectId(req.body.image.user)
+      const tagsArray = []
+      let i = 0
+      while (i < req.body.tag.split(',').length) {
+        const tagsToPush = req.body.tag.split(',')
+        tagsArray.push(tagsToPush[i].trim())
+        i += 1
+      }
       return ImageUpload.create({
         url: awsRes.Location,
         name: imageName,
         owner: req.body.owner,
         type: req.file.mimetype,
-        tag: req.body.tag
+        tag: tagsArray
       })
     })
     .then(image => res.status(201).json({ image }))
@@ -88,13 +94,23 @@ router.patch('/images/:id', requireToken, removeBlanks, (req, res, next) => {
   delete req.body.image.owner
 
   ImageUpload.findById(req.params.id)
-    .populate('owner')
     .then(handle404)
     .then(image => {
       // pass the `req` object and the Mongoose record to `requireOwnership`
       // it will throw an error if the current user isn't the owner
       requireOwnership(req, image)
-
+      console.log(req.body.image.tag)
+      if (req.body.image.tag === true) {
+        let arrayToUpdate = []
+        let i = 0
+        while (i < req.body.image.tag.split(',').length) {
+          const tagsToPush = req.body.image.tag.split(',')
+          arrayToUpdate.push(tagsToPush[i].trim())
+          i += 1
+        }
+        req.body.image.tag = arrayToUpdate
+      }
+      console.log('post array-ify', req.body.image.tag)
       // pass the result of Mongoose's `.update` to the next `.then`
       return image.update(req.body.image)
     })

@@ -11,7 +11,7 @@ curl "${API}${URL_PATH}/${ID}" \
 --data '{
     "image": {
       "tag": "'"${TEXT}"'",
-      "name": "'"${NAME}"'",
+      "name": "'"${NAME}"'"
     }
   }'
 
