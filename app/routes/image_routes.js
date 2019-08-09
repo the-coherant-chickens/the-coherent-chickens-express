@@ -37,13 +37,19 @@ router.post('/images', upload.single('file'), (req, res, next) => {
   uploadFile(req.file)
     .then(awsRes => {
       const imageName = req.file.originalname.split('.')[0]
-      // req.body.image.user = new mongoose.Types.ObjectId(req.body.image.user)
+      const tagsArray = []
+      let i = 0
+      while (i < req.body.tag.split(',').length) {
+        const tagsToPush = req.body.tag.split(',')
+        tagsArray.push(tagsToPush[i].trim())
+        i += 1
+      }
       return ImageUpload.create({
         url: awsRes.Location,
         name: imageName,
         owner: req.body.owner,
         type: req.file.mimetype,
-        tag: req.body.tag
+        tag: tagsArray
       })
     })
     .then(image => res.status(201).json({ image }))
