@@ -37,6 +37,7 @@ router.post('/images', upload.single('file'), (req, res, next) => {
   uploadFile(req.file)
     .then(awsRes => {
       const imageName = req.file.originalname.split('.')[0]
+      // req.body.image.user = new mongoose.Types.ObjectId(req.body.image.user)
       return ImageUpload.create({
         url: awsRes.Location,
         name: imageName,
@@ -53,6 +54,7 @@ router.post('/images', upload.single('file'), (req, res, next) => {
 // GET /images
 router.get('/images', requireToken, (req, res, next) => {
   ImageUpload.find()
+    .populate('owner')
     .then(images => {
       // `images` will be an array of Mongoose documents
       // we want to convert each one to a POJO, so we use `.map` to
@@ -70,6 +72,7 @@ router.get('/images', requireToken, (req, res, next) => {
 router.get('/images/:id', requireToken, (req, res, next) => {
   // req.params.id will be set based on the `:id` in the route
   ImageUpload.findById(req.params.id)
+    .populate('owner')
     .then(handle404)
     // if `findById` is succesful, respond with 200 and "image" JSON
     .then(image => res.status(200).json({ image: image.toObject() }))
@@ -85,6 +88,7 @@ router.patch('/images/:id', requireToken, removeBlanks, (req, res, next) => {
   delete req.body.image.owner
 
   ImageUpload.findById(req.params.id)
+    .populate('owner')
     .then(handle404)
     .then(image => {
       // pass the `req` object and the Mongoose record to `requireOwnership`
