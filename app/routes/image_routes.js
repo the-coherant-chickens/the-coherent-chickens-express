@@ -34,33 +34,19 @@ const router = express.Router()
 // POST /images
 router.post('/images', upload.single('file'), (req, res, next) => {
   // set owner of new image to be current user
-  // console.log(req.body)
-  // req.body.image.owner = req.user._id
   uploadFile(req.file)
     .then(awsRes => {
-      console.log('AWS Response', awsRes)
-      // console.log('Req', req)
+      const imageName = req.file.originalname.split('.')[0]
+      // req.body.image.user = new mongoose.Types.ObjectId(req.body.image.user)
       return ImageUpload.create({
         url: awsRes.Location,
-        name: awsRes.Key,
+        name: imageName,
         owner: req.body.owner,
         type: req.file.mimetype,
         tag: req.body.tag
       })
     })
-    // .then(imageUpload => {
-    //   // image = imageUpload.toObject()
-    //   console.log(imageUpload)
-    // })
-    //
-    // // sent post request to Mongo
-    // .then()
-    // respond to succesful `create` with status 201 and JSON of new "image"
-    // .then(image => res.status(201).json({ image: image.toObject() }))
     .then(image => res.status(201).json({ image }))
-    // if an error occurs, pass it off to our error handler
-    // the error handler needs the error message and the `res` object so that it
-    // can send an error message back to the client
     .catch(next)
 })
 
@@ -68,6 +54,7 @@ router.post('/images', upload.single('file'), (req, res, next) => {
 // GET /images
 router.get('/images', requireToken, (req, res, next) => {
   ImageUpload.find()
+    .populate('owner')
     .then(images => {
       // `images` will be an array of Mongoose documents
       // we want to convert each one to a POJO, so we use `.map` to
@@ -85,6 +72,7 @@ router.get('/images', requireToken, (req, res, next) => {
 router.get('/images/:id', requireToken, (req, res, next) => {
   // req.params.id will be set based on the `:id` in the route
   ImageUpload.findById(req.params.id)
+    .populate('owner')
     .then(handle404)
     // if `findById` is succesful, respond with 200 and "image" JSON
     .then(image => res.status(200).json({ image: image.toObject() }))
@@ -100,6 +88,7 @@ router.patch('/images/:id', requireToken, removeBlanks, (req, res, next) => {
   delete req.body.image.owner
 
   ImageUpload.findById(req.params.id)
+    .populate('owner')
     .then(handle404)
     .then(image => {
       // pass the `req` object and the Mongoose record to `requireOwnership`
