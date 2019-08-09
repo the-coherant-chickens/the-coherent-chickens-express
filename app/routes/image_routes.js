@@ -32,20 +32,32 @@ const router = express.Router()
 
 // CREATE
 // POST /images
-router.post('/images', requireToken, upload.single('file'), (req, res, next) => {
+router.post('/images', upload.single('file'), (req, res, next) => {
   // set owner of new image to be current user
-  req.body.image.owner = req.user.id
-
+  // console.log(req.body)
+  // req.body.image.owner = req.user._id
   uploadFile(req.file)
     .then(awsRes => {
+      console.log('AWS Response', awsRes)
+      // console.log('Req', req)
       return ImageUpload.create({
         url: awsRes.Location,
         name: awsRes.Key,
-        type: req.file.mimetype
+        owner: req.body.owner,
+        type: req.file.mimetype,
+        tag: req.body.tag
       })
     })
+    // .then(imageUpload => {
+    //   // image = imageUpload.toObject()
+    //   console.log(imageUpload)
+    // })
+    //
+    // // sent post request to Mongo
+    // .then()
     // respond to succesful `create` with status 201 and JSON of new "image"
-    .then(image => res.status(201).json({ image: image.toObject() }))
+    // .then(image => res.status(201).json({ image: image.toObject() }))
+    .then(image => res.status(201).json({ image }))
     // if an error occurs, pass it off to our error handler
     // the error handler needs the error message and the `res` object so that it
     // can send an error message back to the client
