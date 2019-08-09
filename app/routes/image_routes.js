@@ -99,7 +99,6 @@ router.patch('/images/:id', requireToken, removeBlanks, (req, res, next) => {
       // pass the `req` object and the Mongoose record to `requireOwnership`
       // it will throw an error if the current user isn't the owner
       requireOwnership(req, image)
-      console.log(req.body.image.tag)
       if (req.body.image.tag === true) {
         let arrayToUpdate = []
         let i = 0
@@ -110,7 +109,6 @@ router.patch('/images/:id', requireToken, removeBlanks, (req, res, next) => {
         }
         req.body.image.tag = arrayToUpdate
       }
-      console.log('post array-ify', req.body.image.tag)
       // pass the result of Mongoose's `.update` to the next `.then`
       return image.update(req.body.image)
     })
