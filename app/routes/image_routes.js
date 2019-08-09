@@ -36,7 +36,7 @@ router.post('/images', upload.single('file'), (req, res, next) => {
   // set owner of new image to be current user
   uploadFile(req.file)
     .then(awsRes => {
-      const imageName = awsRes.key.split('_')[1].split('.')[0]
+      const imageName = req.file.originalname.split('.')[0]
       return ImageUpload.create({
         url: awsRes.Location,
         name: imageName,
