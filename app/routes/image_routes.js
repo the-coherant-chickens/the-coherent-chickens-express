@@ -30,18 +30,6 @@ const requireToken = passport.authenticate('bearer', { session: false })
 // instantiate a router (mini app that only handles routes)
 const router = express.Router()
 
-// Tag loop callback function:
-// const tagLooper = () => {
-// if (req.body.image.tag === true) {
-//   let arrayToUpdate = []
-//   let i = 0
-//   while (i < req.body.image.tag.split(',').length) {
-//     const tagsToPush = req.body.image.tag.split(',')
-//     arrayToUpdate.push(tagsToPush[i].trim())
-//     i += 1
-//   }
-// }
-
 // CREATE
 // POST /images
 router.post('/images', upload.single('file'), (req, res, next) => {
