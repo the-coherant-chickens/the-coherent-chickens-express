@@ -30,10 +30,23 @@ const requireToken = passport.authenticate('bearer', { session: false })
 // instantiate a router (mini app that only handles routes)
 const router = express.Router()
 
+// Tag loop callback function:
+// const tagLooper = () => {
+// if (req.body.image.tag === true) {
+//   let arrayToUpdate = []
+//   let i = 0
+//   while (i < req.body.image.tag.split(',').length) {
+//     const tagsToPush = req.body.image.tag.split(',')
+//     arrayToUpdate.push(tagsToPush[i].trim())
+//     i += 1
+//   }
+// }
+
 // CREATE
 // POST /images
 router.post('/images', upload.single('file'), (req, res, next) => {
   // set owner of new image to be current user
+  console.log(req.file)
   uploadFile(req.file)
     .then(awsRes => {
       const imageName = req.file.originalname.split('.')[0]
@@ -99,7 +112,7 @@ router.patch('/images/:id', requireToken, removeBlanks, (req, res, next) => {
       // pass the `req` object and the Mongoose record to `requireOwnership`
       // it will throw an error if the current user isn't the owner
       requireOwnership(req, image)
-      if (req.body.image.tag === true) {
+      if (req.body.image.tag !== true) {
         let arrayToUpdate = []
         let i = 0
         while (i < req.body.image.tag.split(',').length) {
@@ -110,6 +123,8 @@ router.patch('/images/:id', requireToken, removeBlanks, (req, res, next) => {
         req.body.image.tag = arrayToUpdate
       }
       // pass the result of Mongoose's `.update` to the next `.then`
+      console.log('full image object ', req.body.image)
+      // const returnObject = image.update(req.body.image)
       return image.update(req.body.image)
     })
     // if that succeeded, return 204 and no JSON
