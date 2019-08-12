@@ -34,6 +34,7 @@ const router = express.Router()
 // POST /images
 router.post('/images', upload.single('file'), (req, res, next) => {
   // set owner of new image to be current user
+  console.log(req.file)
   uploadFile(req.file)
     .then(awsRes => {
       const imageName = req.file.originalname.split('.')[0]
