@@ -1,17 +1,46 @@
-# The Corherent Chickens
-## Image Hosting
+# Chicken Pix: An Image Hosting Application
 
-This repo is built in tandem with < Inseret corresponding front-end back-end repos >
+### Deployed Link
+<https://the-coherant-chickens.github.io/the-coherent-chickens-client/>
 
-### Authors:
+### Heroku Link:
+<https://the-coherent-chickens-heroku.herokuapp.com/>
+
+### Back End Repo:
+https://github.com/the-coherant-chickens/the-coherent-chickens-express
+
+### Front End Repo:
+https://github.com/the-coherant-chickens/the-coherent-chickens-client
+
+### Authors (aka The Coherent Chickens):
 - ##### Lori Pinkham (@lpinkham) | *Project Lead / Product Lead*
 - ##### Gabriel Andreottola (@gandreottola) | *Quality Assurance Lead*
 - ##### Seth Sprague (@swsprague) | *Back-End Lead*
 - ##### James Hankins (@JHankins09) | *Front-End Lead*
 
-## Getting Started
+### Application Overview:
 
-### Planning
+Chicken Pix is an app to help you organize your images. This app allows you to upload your photos to an Amazon Web Services S3 Bucket and store metadata for each photo, including a photo name, date created/modified, ownership, and descriptive tags, to a MongoDB Database system. Create an account, sign-in and get started!
+
+### Development Process
+
+#### Planning
+
+Day 1
+- Initial Discussion and Planning Meeting
+- Daily Meeting Schedule
+- Initial Sprint Establishment - Backend Authorization and AWS Setup / Backend Communication
+
+Day 2
+- Image Backend Routing
+- Connecting Front-End API Calls to Backend for Auth and Image Resource
+- CRUD Action Feature Build Out
+
+Day 3
+- Finalize CRUD Actions
+- Debug and Testing / QA
+- Styling
+- ReadMe
 
 #### Initial User Stories
 
@@ -33,13 +62,23 @@ This repo is built in tandem with < Inseret corresponding front-end back-end rep
 #### Initial Wire framing
 
 ##### Client
-- https://media.git.generalassemb.ly/user/21061/files/a8045f00-b9c7-11e9-9ef4-9dd1ba38e8d2
-- https://media.git.generalassemb.ly/user/21061/files/b5214e00-b9c7-11e9-8424-a0067c400fdb
-- https://media.git.generalassemb.ly/user/21061/files/c66a5a80-b9c7-11e9-9e78-5bdd1e324f03
+![WIREFRAME][frame]
 
-##### ERD
-- https://media.git.generalassemb.ly/user/21061/files/e26dfc00-b9c7-11e9-9757-e2de606ee3ee
+[frame]: https://media.git.generalassemb.ly/user/21061/files/a8045f00-b9c7-11e9-9ef4-9dd1ba38e8d2
 
+![p2][wfp2]
+
+[wfp2]: https://media.git.generalassemb.ly/user/21061/files/b5214e00-b9c7-11e9-8424-a0067c400fdb
+
+![p3][wfp3]
+
+[wfp3]: https://media.git.generalassemb.ly/user/21061/files/c66a5a80-b9c7-11e9-9e78-5bdd1e324f03
+
+##### ERD:
+
+![ERD][logo]
+
+[logo]: https://i.imgur.com/DlhMCsf.jpg "ERD"
 
 #### This project was planned to be built in 3 primary parts:
   1. Build out API
@@ -55,7 +94,22 @@ This repo is built in tandem with < Inseret corresponding front-end back-end rep
 
 ### Development Process
 
-Developement split amongst 4 primary team members. Scope of project created numorous conflicts as features were built and imported to master code block, creating some repetition in content build. Team may have been too large or project scope to small.
+Development split amongst 4 primary team members. Scope of project created numorous conflicts as features were built and imported to master code block, creating some repetition in content build. Team may have been too large or project scope to small.
+
+### ROUTING:
+##### User-Routes
+- post - sign-up
+- post - sign-in
+- delete - sign-out
+- patch - change-pw
+
+##### Image-Routes
+- get - list all images from all users - read/index (read-only)
+- get - list current user's images - read/index (authenticated / editable)
+- get - a single image - read/show
+- post - create/upload new image - create
+- patch - change image name / tags - update
+- delete - delete an image - destroy
 
 ## Unresolved issues / features for future release
 
@@ -77,38 +131,29 @@ Developement split amongst 4 primary team members. Scope of project created numo
 
 - Smoother navigation and landing pages
 
-## Built With (technologies used)
-
-### The technologies include in the build of this project are:
-#### Front-end
+## Technologies Used:
+#### Front-End
   - HTML5 & CSS3
-  - javascript
-  - handlebars
+  - Javascript
+  - Handlebars
   - AJAX based JSON calls
   - Bootstrap
+  - jQuery
+  - Git / Github
+  - Grunt Serve
 
-#### Back-end
+#### Back-End
   - AWS
   - MongoDB and Mongoose
     - Powered by Express
   - javascript
   - Node.js
+  - Git / Github
+  - Heroku
+  - Multer
+  - AWS-SDK
+  - NPM Server
 
-## Versioning
-
-### Scripts - Client
-
-#### User
-  This houses all AJAX and JS functionality that impacts user account creation, login, or changes.
-
-#### Groups
-  This hosues all AJAX and JS functionality that impacts the creation, editing, and deletion of unique groups.
-
-#### Memberships
-  This houses all AJAX and JS functionality that impacts the creation and deletion of memberships.
-
-#### General
-  This houses all JS functionality that does not explicetly fall in the above. -Does not communicate to API-
 
 ## Acknowledgments
 This project is built as the result of participating in General Assembly Boston's Software Engineering Immersive course.
