@@ -1,30 +1,85 @@
-# The Coherent Chickens
-## Image Hosting
 
-This repo is built in tandem with <https://github.com/the-coherant-chickens/the-coherent-chickens-client>
+# Chicken Pix: An Image Hosting Application
 
-## Deployed Link
+### Deployed Link
 <https://the-coherant-chickens.github.io/the-coherent-chickens-client/>
 
-## Heroku Link
+### Heroku Link:
 <https://the-coherent-chickens-heroku.herokuapp.com/>
 
+### Back End Repo:
+https://github.com/the-coherant-chickens/the-coherent-chickens-express
 
-### Authors:
+### Front End Repo:
+https://github.com/the-coherant-chickens/the-coherent-chickens-client
+
+### Authors (aka The Coherent Chickens):
 - ##### Lori Pinkham (@lpinkham) | *Project Lead / Product Lead*
 - ##### Gabriel Andreottola (@gandreottola) | *Quality Assurance Lead*
 - ##### Seth Sprague (@swsprague) | *Back-End Lead*
 - ##### James Hankins (@JHankins09) | *Front-End Lead*
 
+### Application Overview:
+
+Chicken Pix is an app to help you organize your images. This app allows you to upload your photos to an Amazon Web Services S3 Bucket and store metadata for each photo, including a photo name, date created/modified, ownership, and descriptive tags, to a MongoDB Database system. Create an account, sign-in and get started!
+
 ### Development Process
 
-Chicken Pic's is an app to help you organize your images. This app allows you to upload your photo's and add some meaningful tags to each image. Create an account, sign-in and get started.
+#### Planning
 
-### Planning
+Day 1
+- Initial Discussion and Planning Meeting
+- Daily Meeting Schedule
+- Initial Sprint Establishment - Backend Authorization and AWS Setup / Backend Communication
 
-##### ERD
-- https://media.git.generalassemb.ly/user/21061/files/e26dfc00-b9c7-11e9-9757-e2de606ee3ee
+Day 2
+- Image Backend Routing
+- Connecting Front-End API Calls to Backend for Auth and Image Resource
+- CRUD Action Feature Build Out
 
+Day 3
+- Finalize CRUD Actions
+- Debug and Testing / QA
+- Styling
+- ReadMe
+
+#### Initial User Stories
+
+- As an unregistered user, I would like to sign up with email and password.
+- As a registered user, I would like to sign in with email and password.
+- As a signed in user, I would like to change password.
+- As a signed in user, I would like to sign out.
+- As a signed in user, I would like to upload an image to AWS.
+- As a signed in user, I would like to update the meta-data of my image on AWS.
+- As a signed in user, I would like to see the name of all images on AWS.
+- As a signed in user, I would like to see the thumbnail of all images on AWS.
+- As a signed in user, I would like to delete the reference of my image from the database.
+- As a signed in user, I would like to see the following meta-data for any image:
+  - date created/uploaded
+  - date modified
+  - owner (user who uploaded the image)
+  - tag
+
+#### Initial Wire framing
+
+##### Client
+![WIREFRAME][frame]
+
+[frame]: https://media.git.generalassemb.ly/user/21061/files/a8045f00-b9c7-11e9-9ef4-9dd1ba38e8d2
+
+![p2][wfp2]
+
+[wfp2]: https://media.git.generalassemb.ly/user/21061/files/b5214e00-b9c7-11e9-8424-a0067c400fdb
+
+![p3][wfp3]
+
+[wfp3]: https://media.git.generalassemb.ly/user/21061/files/c66a5a80-b9c7-11e9-9e78-5bdd1e324f03
+
+##### ERD:
+
+![ERD][logo]
+
+[logo]: https://i.imgur.com/DlhMCsf.jpg "ERD"
 
 #### This project was planned to be built in 3 primary parts:
   1. Build out API
@@ -40,7 +95,31 @@ Chicken Pic's is an app to help you organize your images. This app allows you to
 
 ### Development Process
 
-Developement split amongst 4 primary team members. Scope of project created numorous conflicts as features were built and imported to master code block, creating some repetition in content build. Team may have been too large or project scope to small.
+Development split amongst 4 primary team members. Scope of project created numorous conflicts as features were built and imported to master code block, creating some repetition in content build. Team may have been too large or project scope to small.
+
+### ROUTING:
+##### User-Routes
+- post - sign-up
+- post - sign-in
+- delete - sign-out
+- patch - change-pw
+
+##### Image-Routes
+- get - list all images from all users - read/index (read-only)
+- get - list current user's images - read/index (authenticated / editable)
+- get - a single image - read/show
+- post - create/upload new image - create
+- patch - change image name / tags - update
+- delete - delete an image - destroy
+
+##### Catalog of Routes
+| Method | Path |
+|-------|:----------|
+|GET   | /images/:id  |
+|POST   |  /images |
+|INDEX   |  /images |
+|DELETE   | /images/:id  |
+|PATCH   | /images/:id  |
 
 ## Unresolved issues / features for future release
 
@@ -62,32 +141,28 @@ Developement split amongst 4 primary team members. Scope of project created numo
 
 - Smoother navigation and landing pages
 
-## Built With (technologies used)
-
-### The technologies include in the build of this project are:
-#### Front-end
+## Technologies Used:
+#### Front-End
   - HTML5 & CSS3
-  - javascript
-  - handlebars
+  - Javascript
+  - Handlebars
   - AJAX based JSON calls
   - Bootstrap
+  - jQuery
+  - Git / Github
+  - Grunt Serve
 
-#### Back-end
+#### Back-End
   - AWS
   - MongoDB and Mongoose
     - Powered by Express
   - javascript
   - Node.js
-
-## Catalog of Routes
-| Method | Path |
-|-------|:----------|
-|GET   | /images/:id  |
-|POST   |  /images |
-|INDEX   |  /images |
-|DELETE   | /images/:id  |
-|PATCH   | /images/:id  |
-
+  - Git / Github
+  - Heroku
+  - Multer
+  - AWS-SDK
+  - NPM Server
 
 ## Acknowledgments
 This project is built as the result of participating in General Assembly Boston's Software Engineering Immersive course.
