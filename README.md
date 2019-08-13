@@ -1,3 +1,4 @@
+
 # Chicken Pix: An Image Hosting Application
 
 ### Deployed Link
@@ -111,6 +112,15 @@ Development split amongst 4 primary team members. Scope of project created numor
 - patch - change image name / tags - update
 - delete - delete an image - destroy
 
+##### Catalog of Routes
+| Method | Path |
+|-------|:----------|
+|GET   | /images/:id  |
+|POST   |  /images |
+|INDEX   |  /images |
+|DELETE   | /images/:id  |
+|PATCH   | /images/:id  |
+
 ## Unresolved issues / features for future release
 
 - Responsive Design
@@ -153,7 +163,6 @@ Development split amongst 4 primary team members. Scope of project created numor
   - Multer
   - AWS-SDK
   - NPM Server
-
 
 ## Acknowledgments
 This project is built as the result of participating in General Assembly Boston's Software Engineering Immersive course.
